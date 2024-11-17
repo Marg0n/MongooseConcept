@@ -43,7 +43,6 @@
   ```json
       "scripts": {
       "build": "tsc",
-      ......
   }
   ```
 
