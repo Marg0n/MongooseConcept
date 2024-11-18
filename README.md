@@ -9,13 +9,13 @@
 - tsc -init
   - In the "tsconfig.json" find & edit "rootDir": "./src"
   - find & edit "outDir": "./dist"
-- Create a folder named 'src' > 'app' > 'config' > 'config.ts', then paste:
+- Create a folder named 'src' > 'app' > 'config' > 'index.ts', then paste:
 
   ```ts
   import dotenv from "dotenv";
   import path from "path";
 
-  dotenv.config({ path: path.join((process.pwd(), ".env")) });
+  dotenv.config({ path: path.join((process.cwd(), ".env")) });
   //or
   //dotenv.config({path: path.join(__dirname,'.env')});
   ```
@@ -37,8 +37,23 @@
   ```
 
 - npm i --save-dev @types/node
+- npm i --save-dev @types/express
+- use these changes to 'app.ts'
 
-- Add
+  ```javascript
+  // const express = require("express");
+  import express, { Request, Response } from "express";
+  const app = express();
+  const port = 3000;
+
+  app.get("/", (req: Request, res: Response) => {
+    res.send("Hello World!");
+  });
+
+  export default app;
+  ```
+
+- Add 'scripts' to json file:
 
   ```json
       "scripts": {
