@@ -197,7 +197,7 @@
   ```bash
   npm run lint:fix 
   ```
--  Add prettier as dev dependencies
+- Add prettier as dev dependencies
   ```bash
   npm i -D --exact prettier
   ```
