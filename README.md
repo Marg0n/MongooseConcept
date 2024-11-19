@@ -139,10 +139,10 @@
 
 - add the following to tsconfig.json :
 
-```json
-"include": ["src"], // which files to compile
-"exclude": ["node_modules"], // which files to skip
-```
+  ```json
+  "include": ["src"], // which files to compile
+  "exclude": ["node_modules"], // which files to skip
+  ```
 
 - ```bash
   npm install eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin --save-dev
@@ -152,28 +152,28 @@
   ```
 - Remodel the 'eslint.config.mjs':
 
-```mjs
-import globals from "globals";
-import pluginJs from "@eslint/js";
-import tseslint from "typescript-eslint";
+  ```mjs
+  import globals from "globals";
+  import pluginJs from "@eslint/js";
+  import tseslint from "typescript-eslint";
 
 
-/** @type {import('eslint').Linter.Config[]} */
-export default [
-  {files: ["**/*.{js,mjs,cjs,ts}"]},
-  {languageOptions: { globals: globals.node }},
-  pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
-  {
-    ignores: [".node_modules/*","dist/*"],
-    rules: {
-      // eqeqeq: "off",
-      "no-unused-vars": "error",
-      // "prefer-const": ["error", { ignoreReadBeforeAssign: true }],
+  /** @type {import('eslint').Linter.Config[]} */
+  export default [
+    {files: ["**/*.{js,mjs,cjs,ts}"]},
+    {languageOptions: { globals: globals.node }},
+    pluginJs.configs.recommended,
+    ...tseslint.configs.recommended,
+    {
+      ignores: [".node_modules/*","dist/*"],
+      rules: {
+        // eqeqeq: "off",
+        "no-unused-vars": "error",
+        // "prefer-const": ["error", { ignoreReadBeforeAssign: true }],
+      },
     },
-  },
-];
-```
+  ];
+  ```
 
 - ```bash
   npm remove eslint
@@ -183,12 +183,12 @@ export default [
   ```
 - add these scripts to package.json
 
-```json
-"scripts": {
-    "lint": "eslint src/**/*.ts",
-    "lint:fix": "eslint src/**/*.ts --fix"
-  },
-```
+  ```json
+  "scripts": {
+      "lint": "eslint src/**/*.ts",
+      "lint:fix": "eslint src/**/*.ts --fix"
+    },
+  ```
 - To find unused variables
   ```bash
   npm run lint 
