@@ -1,12 +1,26 @@
 ## What commands and steps I have used to initialize the project:
 
-- npn init -y
-- npm install express --save
-- npm install mongoose --save
-- npm install typescript --save-dev
-- npm i cors
-- npm i dotenv
-- tsc -init
+- ```bash
+  npn init -y
+  ```
+- ```bash
+  npm install express --save
+  ```
+- ```bash
+  npm install mongoose --save
+  ```
+- ```bash
+  npm install typescript --save-dev
+  ```
+- ```bash
+  npm i cors
+  ```
+- ```bash
+  npm i dotenv
+  ```
+- ```bash
+  tsc -init
+  ```
   - In the "tsconfig.json" find & edit "rootDir": "./src"
   - find & edit "outDir": "./dist"
 - Create a folder named 'src' > 'app' > 'config' > 'index.ts', then paste:
@@ -63,9 +77,15 @@
   export default app;
   ```
 
-- npm i --save-dev @types/node
-- npm i --save-dev @types/cors
-- npm i --save-dev @types/express
+- ```bash
+  npm i --save-dev @types/node
+  ```
+- ```bash
+  npm i --save-dev @types/cors
+  ```
+- ```bash
+  npm i --save-dev @types/express
+  ```
 - use these changes to 'app.ts'
 
   ```javascript
@@ -124,8 +144,12 @@
 "exclude": ["node_modules"], // which files to skip
 ```
 
-- npm install eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin --save-dev
-- npx eslint --init
+- ```bash
+  npm install eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin --save-dev
+  ```
+- ```bash
+  npx eslint --init
+  ```
 - Remodel the 'eslint.config.mjs':
 
 ```mjs
@@ -151,8 +175,12 @@ export default [
 ];
 ```
 
-- npm remove eslint
-- npm i -D eslint@9.14.0
+- ```bash
+  npm remove eslint
+  ```
+- ```bash
+  npm i -D eslint@9.14.0
+  ```
 - add these scripts to package.json
 
 ```json
@@ -161,10 +189,19 @@ export default [
     "lint:fix": "eslint src/**/*.ts --fix"
   },
 ```
-- npm run lint <!-- to find unused variables -->
-- npm run lint:fix <!-- to fix error variables -->
-- npm i -D --exact prettier
-- create .prettierrc and .prettierignore file in the root of your project 
+- To find unused variables
+  ```bash
+  npm run lint 
+  ```
+- To fix error variables
+  ```bash
+  npm run lint:fix 
+  ```
+-  Add prettier as dev dependencies
+  ```bash
+  npm i -D --exact prettier
+  ```
+- create `.prettierrc` and `.prettierignore` file in the root of your project 
 - Include basic configurations for prettier in the .prettierrc file.
 
   ```json
