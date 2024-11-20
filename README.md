@@ -26,10 +26,10 @@
 - Create a folder named 'src' > 'app' > 'config' > 'index.ts', then paste:
 
   ```ts
-  import dotenv from "dotenv";
-  import path from "path";
+  import dotenv from 'dotenv';
+  import path from 'path';
 
-  dotenv.config({ path: path.join((process.cwd(), ".env")) });
+  dotenv.config({ path: path.join((process.cwd(), '.env')) });
   //or
   //dotenv.config({path: path.join(__dirname,'.env')});
 
@@ -42,9 +42,9 @@
   then further configure like this:
 
   ```ts
-  import mongoose from "mongoose";
-  import app from "./app";
-  import config from "./app/config";
+  import mongoose from 'mongoose';
+  import app from './app';
+  import config from './app/config';
 
   async function main() {
     try {
@@ -135,6 +135,7 @@
   ```
   .env
   node_modules
+  dist
   ```
 
 - add the following to tsconfig.json :
@@ -153,23 +154,32 @@
 - Remodel the 'eslint.config.mjs':
 
   ```mjs
-  import globals from "globals";
-  import pluginJs from "@eslint/js";
-  import tseslint from "typescript-eslint";
-
+  import globals from 'globals';
+  import pluginJs from '@eslint/js';
+  import tseslint from 'typescript-eslint';
+  import tsParser from '@typescript-eslint/parser';
 
   /** @type {import('eslint').Linter.Config[]} */
   export default [
-    {files: ["**/*.{js,mjs,cjs,ts}"]},
-    {languageOptions: { globals: globals.node }},
+    { files: ['**/*.{js,mjs,cjs,ts}'] },
+    {
+      languageOptions: {
+        globals: globals.node, // Specifies the global variables, making them read-only as required by the flat config system.
+        parser: tsParser, // Sets the parser for TypeScript files to ensure ESLint can parse TypeScript syntax correctly.
+      },
+    },
     pluginJs.configs.recommended,
     ...tseslint.configs.recommended,
     {
-      ignores: [".node_modules/*","dist/*"],
+      ignores: ['.node_modules/*', 'dist/*'],
       rules: {
-        // eqeqeq: "off",
-        "no-unused-vars": "error",
-        // "prefer-const": ["error", { ignoreReadBeforeAssign: true }],
+        eqeqeq: 'error', // Enforce strict equality
+        'no-unused-vars': 'error',
+        'no-unused-expressions': 'off', // Disable the original rule
+        '@typescript-eslint/no-unused-expressions': 'error', // Use TypeScript-specific rule
+        'prefer-const': ['error', { ignoreReadBeforeAssign: true }],
+        'no-console': 'warn',
+        'no-undef': 'error',
       },
     },
   ];
@@ -189,19 +199,20 @@
       "lint:fix": "eslint src/**/*.ts --fix"
     },
   ```
+
 - To find unused variables
   ```bash
-  npm run lint 
+  npm run lint
   ```
 - To fix error variables
   ```bash
-  npm run lint:fix 
+  npm run lint:fix
   ```
 - Add prettier as dev dependencies
   ```bash
   npm i -D --exact prettier
   ```
-- create `.prettierrc` and `.prettierignore` file in the root of your project 
+- create `.prettierrc` and `.prettierignore` file in the root of your project
 - Include basic configurations for prettier in the .prettierrc file.
 
   ```json
@@ -218,10 +229,40 @@
   coverage
   ```
 
-- Finally we can add scripts for prettier as well in the package.json file.
+- Finally we can add scripts for prettier as well in the package.json file. 
 
   ```json
   "scripts": {
-    "format": "prettier . --write"
+    "format": "prettier --ignore-path .gitignore --write \"./src/**/*.+(js|ts|json)\"",
+    "format:fix": "npx prettier --write src/**/*.ts"
   }
+  ```
+
+  Note: For all kinds of format: (skip)
+
+  ```json
+  "scripts": {    
+    "format": "prettier . --write",
+    "format:fix": "npx prettier --write src/**/*.ts"
+  }
+  ```
+
+- You’ll likely run into an issue when a Prettier and ESLint rule overlap. You can try to auto-format your code, but it will show you some conflicts with ESLint.
+
+  The best solution here is to use the eslint-config-prettier plugin to disable all ESLint rules that are irrelevant to code formatting, as Prettier is already good at it:
+
+  ```bash
+  npm install --save-dev eslint-config-prettier
+  ```
+
+- With that installed, let’s go to the eslint.config.mjs file, and add prettier at the end of your extends list to disable any other previous rules from other plugins:
+
+  ```mjs
+  // eslint.config.mjs
+  const eslintPluginPrettierRecommended = require('eslint-plugin-prettier/recommended');
+
+  module.exports = [
+    // Any other config imports go at the top
+    eslintPluginPrettierRecommended,
+  ];
   ```
