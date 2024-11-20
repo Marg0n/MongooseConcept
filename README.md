@@ -21,9 +21,20 @@
 - ```bash
   tsc -init
   ```
-  - In the "tsconfig.json" find & edit "rootDir": "./src"
-  - find & edit "outDir": "./dist"
-- Create a folder named 'src' > 'app' > 'config' > 'index.ts', then paste:
+
+  - In the `tsconfig.json` find & edit
+
+    ```json
+    "rootDir": "./src"
+    ```
+
+  - find & edit
+
+    ```json
+    "outDir": "./dist"
+    ```
+
+- Create a folder named `src` > `app` > `config` > `index.ts`, then paste:
 
   ```ts
   import dotenv from 'dotenv';
@@ -59,7 +70,7 @@
   }
   ```
 
-- Create a folder named 'src' > 'app.ts' , paste:
+- Create a folder named `src` > `app.ts` , paste:
 
   ```js
   import express, { Application, Request, Response } from "express";
@@ -86,7 +97,7 @@
 - ```bash
   npm i --save-dev @types/express
   ```
-- use these changes to 'app.ts'
+- use these changes to `app.ts`
 
   ```javascript
   import express, { Request, Response } from "express";
@@ -100,7 +111,7 @@
   export default app;
   ```
 
-- Add 'scripts' to json file:
+- Add `scripts` to json file:
 
   ```json
       "scripts": {
@@ -114,7 +125,7 @@
   npm run build
   ```
 
-- Create 'src' > 'server.ts' , paste:
+- Create `src` > `server.ts` , paste:
 
   ```js
   app.listen(port, () => {
@@ -122,7 +133,7 @@
   });
   ```
 
-- Create .env file :
+- Create `.env` file :
 
   ```
     PORT = 5000
@@ -130,7 +141,7 @@
     DATABASE_URL = mongodb+srv://<db_username>:<db_password>@cluster0.<smth>.mongodb.net/<DBname>?retryWrites=true&w=majority&appName=Cluster0
   ```
 
-- Create .gitignore file and add:
+- Create `.gitignore` file and add:
 
   ```
   .env
@@ -138,7 +149,7 @@
   dist
   ```
 
-- add the following to tsconfig.json :
+- add the following to `tsconfig.json` :
 
   ```json
   "include": ["src"], // which files to compile
@@ -151,7 +162,7 @@
 - ```bash
   npx eslint --init
   ```
-- Remodel the 'eslint.config.mjs':
+- Remodel the `eslint.config.mjs`:
 
   ```mjs
   import globals from 'globals';
@@ -191,7 +202,7 @@
 - ```bash
   npm i -D eslint@9.14.0
   ```
-- add these scripts to package.json
+- add these scripts to `package.json`
 
   ```json
   "scripts": {
@@ -222,14 +233,14 @@
   }
   ```
 
-- Also, we need to tell prettier which files to not format So inside .prettierignore include the following
+- Also, we need to tell prettier which files to not format So inside `.prettierignore` include the following
 
   ```
   dist
   coverage
   ```
 
-- Finally we can add scripts for prettier as well in the package.json file. 
+- Finally we can add scripts for prettier as well in the `package.json` file.
 
   ```json
   "scripts": {
@@ -241,7 +252,7 @@
   Note: For all kinds of format: (skip)
 
   ```json
-  "scripts": {    
+  "scripts": {
     "format": "prettier . --write",
     "format:fix": "npx prettier --write src/**/*.ts"
   }
@@ -249,13 +260,13 @@
 
 - You’ll likely run into an issue when a Prettier and ESLint rule overlap. You can try to auto-format your code, but it will show you some conflicts with ESLint.
 
-  The best solution here is to use the eslint-config-prettier plugin to disable all ESLint rules that are irrelevant to code formatting, as Prettier is already good at it:
+  The best solution here is to use the `eslint-config-prettier` plugin to disable all ESLint rules that are irrelevant to code formatting, as Prettier is already good at it:
 
   ```bash
   npm install --save-dev eslint-config-prettier
   ```
 
-- With that installed, let’s go to the eslint.config.mjs file, and add prettier at the end of your extends list to disable any other previous rules from other plugins:
+- With that installed, let’s go to the `eslint.config.mjs` file, and add prettier at the end of your extends list to disable any other previous rules from other plugins:
 
   ```mjs
   // eslint.config.mjs
@@ -265,4 +276,37 @@
     // Any other config imports go at the top
     eslintPluginPrettierRecommended,
   ];
+  ```
+
+- Add TS nodemon like dev dependencies
+
+  ```bash
+  npm i ts-node-dev
+  ```
+
+- Add the following to `package.json`
+
+  ```json
+  "scripts": {
+    "start:prod": "node ./dist/server.js",
+    "start:dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+  }
+  ```
+
+- try the following to build in node:
+
+  ```bash
+  npm run start:prod
+  ```
+
+  or can try to be faster in development environment by (_works same as nodemon_):
+
+  ```bash
+  npm run start:dev
+  ```
+
+- Add the following to `.env`:
+
+  ```
+  NODE_ENV = development #production
   ```
