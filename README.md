@@ -1,4 +1,4 @@
-## Steps by steps commands to initialize the project:
+## 🛠 Steps by steps commands to initialize the project:
 
 - ```bash
   npn init -y
